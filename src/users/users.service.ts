@@ -25,10 +25,10 @@ export class UsersService {
         const resend = new Resend(process.env.RESEND_API_KEY);
 
         const { data, error } = await resend.emails.send({
-          from: 'Acme <onboarding@resend.dev>',
+          from: `${process.env.FROM} <${process.env.FROM_EMAIL}>`,
           to: [userData.email],
-          subject: 'TEST',
-          html: '<strong>It works!</strong>',
+          subject: 'Welcome message',
+          html: `<strong>Welcome message</strong>`,
         });
 
         if (error) {
@@ -150,7 +150,7 @@ export class UsersService {
       );
       console.log(mails);
 
-      if(mails.length === 0){
+      if (mails.length === 0) {
         return {
           status: 200,
           message: 'No hay usuarios para enviar correos',
@@ -160,8 +160,9 @@ export class UsersService {
       const resend = new Resend(process.env.RESEND_API_KEY);
 
       const { data, error } = await resend.emails.send({
-        from: 'Acme <onboarding@resend.dev>',
-        to: mails,
+        from: `${process.env.FROM} <${process.env.FROM_EMAIL}>`,
+        to: 'info@connectpalestine.org',
+        bcc: mails,
         subject: subject,
         html: `<strong>${message}</strong>`,
       });
